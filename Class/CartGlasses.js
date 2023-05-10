@@ -15,110 +15,63 @@ class CartGlasses {
         this.currency = 'UAH'
     }
 
-    emptyInCart() { // проверка на пустую корзину
-        if (this.render() === undefined) {
-            document.querySelector('.cart-out').innerHTML = ''; // очищаю вывод
-            let emptyMessage = document.querySelector('.for-empty');
-            let emptyHead = document.createElement('p');
-            emptyHead.classList.add('empty-head');
-            emptyHead.textContent = 'Your cart is currently empty.'
-            emptyMessage.append(emptyHead);
+   
+    emptyInCartOut(out) { // проверка на пустую корзину и вывод сообщений
 
-            let areaText = document.createElement('div');
-            areaText.classList.add('empty-text');
+        //для мини-корзины
+        if (out === '.widget_shopping_cart') {
+            if (this.render() === undefined) {
+                document.querySelector(out).innerHTML = ''; // очищаю вывод
+                let emptyMessage = document.querySelector(out);
+                let emptyHead = document.createElement('p');
+                emptyHead.classList.add('empty-head');
+                emptyHead.style.fontSize = '1.1em';
+                emptyHead.textContent = 'Your cart is currently empty.'
+                emptyMessage.append(emptyHead);
 
-            let text1 = document.createElement('p');
-            text1.innerHTML = `Please add items to your shopping cart before proceeding to checkout.`;
-            areaText.append(text1);
-
-            let text2 = document.createElement('p');
-            text2.innerHTML = 'On the "Shop" page you will find many interesting products.';
-            areaText.append(text2);
-
-            emptyMessage.append(areaText);
-
-            let buttonDiv = document.createElement('div');
-            buttonDiv.classList.add('button-div');
-            let button = document.createElement('button');
-            button.classList.add('button-cart');
-            button.innerHTML = "Back to shop";
-            buttonDiv.append(button);
-            emptyMessage.append(buttonDiv);
+                let buttonDiv = document.createElement('div');
+                buttonDiv.classList.add('button-div');
+                let button = document.createElement('button');
+                button.classList.add('button-cart');
+                button.innerHTML = "Back to shop";
+                buttonDiv.append(button);
+                emptyMessage.append(buttonDiv);
+            }
         }
-    }
 
-    emptyInCartMini() { // проверка на пустую мини-корзину
-        if (this.render() === undefined) {
-            document.querySelector('.widget_shopping_cart').innerHTML = ''; // очищаю вывод
-            let emptyMessage = document.querySelector('.widget_shopping_cart');
-            let emptyHead = document.createElement('p');
-            emptyHead.classList.add('empty-head');
-            emptyHead.style.fontSize = '1.1em';
-            emptyHead.textContent = 'Your cart is currently empty.'
-            emptyMessage.append(emptyHead);
+        // для корзины
+        if (out === '.cart-out') {
+            if (this.render() === undefined) {
+                document.querySelector('.cart-out').innerHTML = ''; // очищаю вывод
+                let emptyMessage = document.querySelector('.for-empty');
+                let emptyHead = document.createElement('p');
+                emptyHead.classList.add('empty-head');
+                emptyHead.textContent = 'Your cart is currently empty.'
+                emptyMessage.append(emptyHead);
 
-            // let areaText = document.createElement('div');
-            // areaText.classList.add('empty-text');
+                let areaText = document.createElement('div');
+                areaText.classList.add('empty-text');
 
-            // let text1 = document.createElement('p');
-            // text1.innerHTML = `Please add items to your shopping cart before proceeding to checkout.`;
-            // areaText.append(text1);
+                let text1 = document.createElement('p');
+                text1.innerHTML = `Please add items to your shopping cart before proceeding to checkout.`;
+                areaText.append(text1);
 
-            // let text2 = document.createElement('p');
-            // text2.innerHTML = 'On the "Shop" page you will find many interesting products.';
-            // areaText.append(text2);
+                let text2 = document.createElement('p');
+                text2.innerHTML = 'On the "Shop" page you will find many interesting products.';
+                areaText.append(text2);
 
-            // emptyMessage.append(areaText);
+                emptyMessage.append(areaText);
 
-            let buttonDiv = document.createElement('div');
-            buttonDiv.classList.add('button-div');
-            let button = document.createElement('button');
-            button.classList.add('button-cart');
-            button.innerHTML = "Back to shop";
-            buttonDiv.append(button);
-            emptyMessage.append(buttonDiv);
-
+                let buttonDiv = document.createElement('div');
+                buttonDiv.classList.add('button-div');
+                let button = document.createElement('button');
+                button.classList.add('button-cart');
+                button.innerHTML = "Back to shop";
+                buttonDiv.append(button);
+                emptyMessage.append(buttonDiv);
+            }
         }
     };
-
-
-    // emptyInCart() { // проверка на пустую корзину
-    //     if (this.render() === undefined) {
-    //         let pageOut = '.cart-out'; // cart-mini
-    //         let areaOut = '.for-empty'
-    //         let headClass = 'empty-head';
-    //         let textP = '';
-
-
-    //         document.querySelector('.cart-out').innerHTML = ''; // очищаю вывод
-    //         let emptyMessage = document.querySelector('.for-empty');
-    //         let emptyHead = document.createElement('p');
-    //         emptyHead.classList.add('empty-head');
-    //         emptyHead.textContent = 'Your cart is currently empty.'
-    //         emptyMessage.append(emptyHead);
-
-    //         let areaText = document.createElement('div');
-    //         areaText.classList.add('empty-text');
-
-    //         let text1 = document.createElement('p');
-    //         text1.innerHTML = `Please add items to your shopping cart before proceeding to checkout.`;
-    //         areaText.append(text1);
-
-    //         let text2 = document.createElement('p');
-    //         text2.innerHTML = 'On the "Shop" page you will find many interesting products.';
-    //         areaText.append(text2);
-
-    //         emptyMessage.append(areaText);
-
-    //         let buttonDiv = document.createElement('div');
-    //         buttonDiv.classList.add('button-div');
-    //         let button = document.createElement('button');
-    //         button.classList.add('button-cart');
-    //         button.innerHTML = "Back to shop";
-    //         buttonDiv.append(button);
-    //         emptyMessage.append(buttonDiv);
-    //     }
-    // };
 
     goodsPlus(art) {
         this.items[art]['count']++;
@@ -135,7 +88,7 @@ class CartGlasses {
         delete this.items[art];
     }
 
-    getQt() {
+    getQt() { // счетчик количества товара в корзине
         let countItem = document.querySelector('.count-item');
         let qt = 0;
         for (let key in this.items) {
@@ -152,7 +105,7 @@ class CartGlasses {
         return total;
     }
 
-    getSaving() {
+    getSaving() { // расчет сэкономленной суммы
         let total = 0;
         let saved = 0;
         for (let key in this.items) {
@@ -162,7 +115,7 @@ class CartGlasses {
         return saved;
     }
 
-    render() {
+    render() { // метод построения корзины
         let tableHeaders = [" ", " ", "product", "price", " ", "qt", " ", "sum"];
         let table = document.createElement('table'); // create table
         table.classList.add(this.cartClass); // add class from constructor
@@ -328,7 +281,7 @@ class CartGlasses {
         }
     }
 
-    getMiniCart() {
+    getMiniCart() { // метод построения мини-корзины
 
         let shopping_cart_content = document.createElement('div');
         shopping_cart_content.classList.add('widget_shopping_cart_content');
